@@ -1,5 +1,7 @@
 # vaultit
 
+mcp-name: io.github.TheRealDataBoss/vaultit
+
 [![PyPI](https://img.shields.io/pypi/v/vaultit?color=00d4ff&labelColor=0a0a0a)](https://pypi.org/project/vaultit/)
 [![Python 3.10+](https://img.shields.io/pypi/pyversions/vaultit?color=6acc65&labelColor=0a0a0a)](https://pypi.org/project/vaultit/)
 [![License: MIT](https://img.shields.io/pypi/l/vaultit?color=7b61ff&labelColor=0a0a0a)](https://github.com/TheRealDataBoss/vaultit/blob/main/LICENSE)

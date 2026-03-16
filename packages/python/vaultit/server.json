@@ -9,13 +9,13 @@
     "source": "github",
     "subfolder": "packages/python"
   },
-  "version": "0.2.7",
+  "version": "0.6.1",
   "packages": [
     {
       "registryType": "pypi",
       "registryBaseUrl": "https://pypi.org",
       "identifier": "vaultit",
-      "version": "0.2.7",
+      "version": "0.6.1",
       "transport": {
         "type": "stdio"
       }

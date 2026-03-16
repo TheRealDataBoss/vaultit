@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 # mcp-name: io.github.TheRealDataBoss/vaultit
 name = "vaultit"
-version = "0.6.0"
+version = "0.6.1"
 description = "Zero model drift between AI agents. Universal session continuity CLI and Python library for Claude, GPT, Gemini, and any LLM."
 readme = "README.md"
 license = "MIT"
