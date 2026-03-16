@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - vaultit{% endblock %}
+{% block content %}
+<div class="mb-8">
+  <h1 class="font-mono text-3xl font-bold mb-2">Dashboard</h1>
+  <p class="text-ck-muted">{{ profile.org.name }} &middot; {{ profile.org.plan|upper }} plan</p>
+</div>
+
+<div class="grid grid-cols-3 gap-4 mb-8">
+  <div style="border: 1px solid #1f2937; border-radius: 8px; padding: 24px; background: #111827;">
+    <div style="font-size: 2.5rem; font-family: 'Inter', sans-serif; font-weight: 700; color: #22d3ee;">{{ project_count }}</div>
+    <div style="font-size: 0.875rem; color: #9ca3af; margin-top: 4px;">Projects</div>
+  </div>
+  <div style="border: 1px solid #1f2937; border-radius: 8px; padding: 24px; background: #111827;">
+    <div style="font-size: 2.5rem; font-family: 'Inter', sans-serif; font-weight: 700; color: #22d3ee;">{{ session_count }}</div>
+    <div style="font-size: 0.875rem; color: #9ca3af; margin-top: 4px;">Sessions</div>
+  </div>
+  <div style="border: 1px solid #1f2937; border-radius: 8px; padding: 24px; background: #111827;">
+    <div style="font-size: 2.5rem; font-family: 'Inter', sans-serif; font-weight: 700; color: #22d3ee;">{{ handoff_count }}</div>
+    <div style="font-size: 0.875rem; color: #9ca3af; margin-top: 4px;">Handoffs</div>
+  </div>
+</div>
+
+<div class="bg-ck-surface border border-ck-border rounded-lg">
+  <div class="px-6 py-4 border-b border-ck-border flex items-center justify-between">
+    <h2 class="font-mono font-semibold text-lg">Projects</h2>
+  </div>
+  {% if projects %}
+    <div class="divide-y divide-ck-border">
+      {% for project in projects %}
+        <a href="{% url 'dashboard:project-detail' project.project_id %}" class="block px-6 py-4 hover:bg-ck-border/30 transition">
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="font-bold">{{ project.name }}</span>
+              <span class="text-ck-muted ml-2 font-mono text-sm">{{ project.project_id }}</span>
+            </div>
+            <div class="text-sm text-ck-muted">
+              {{ project.coordination }} &middot; {{ project.created_at|date:"M d, Y" }}
+            </div>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="px-6 py-12 text-center">
+      <div class="text-4xl text-ck-muted mb-4 font-mono">&gt;_</div>
+      <h3 class="font-mono font-bold text-lg mb-2">No projects yet</h3>
+      <p class="text-ck-muted text-sm mb-6">Install the CLI and run vaultit init to create your first project</p>
+      <div class="bg-ck-bg border border-ck-border rounded-lg p-4 max-w-md mx-auto text-left mb-6">
+        <code class="text-sm text-ck-cyan font-mono block">pip install vaultit</code>
+        <code class="text-sm text-ck-cyan font-mono block mt-1">vaultit init --name my-project</code>
+        <code class="text-sm text-ck-cyan font-mono block mt-1">vaultit sync --agent claude</code>
+      </div>
+      <a href="https://therealdataboss.github.io/vaultit"
+         target="_blank"
+         class="inline-block border border-ck-border px-4 py-2 rounded text-sm hover:border-ck-cyan transition">
+        View Documentation
+      </a>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

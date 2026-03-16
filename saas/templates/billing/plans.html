@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Plans - vaultit{% endblock %}
+{% block content %}
+<h1 class="font-mono text-3xl font-bold mb-8 text-center">Plans</h1>
+
+<div class="grid grid-cols-4 gap-4" x-data="{ showModal: false }">
+  {% for plan in plans %}
+    <div class="bg-ck-surface border rounded-lg p-6 {% if plan.slug == 'pro' %}border-ck-cyan{% else %}border-ck-border{% endif %}">
+      {% if plan.slug == 'pro' %}
+        <div class="text-xs text-ck-cyan mb-2 uppercase tracking-wider">Most Popular</div>
+      {% endif %}
+      <h3 class="font-mono text-xl font-bold mb-1">{{ plan.name }}</h3>
+      <div class="text-2xl font-bold text-ck-cyan mb-4">{{ plan.price }}</div>
+      <ul class="text-sm text-ck-muted space-y-2 mb-6">
+        <li>{{ plan.projects }} projects</li>
+        <li>{{ plan.history }} history</li>
+        <li>{{ plan.seats }} seat{{ plan.seats|pluralize }}</li>
+      </ul>
+      {% if plan.slug == 'free' %}
+        <button disabled class="w-full border border-ck-border text-ck-muted px-4 py-2 rounded text-sm cursor-default">Current Plan</button>
+      {% elif plan.slug == 'enterprise' %}
+        <a href="mailto:hello@vaultit.ai" class="block text-center border border-ck-border px-4 py-2 rounded hover:border-ck-cyan transition text-sm">Contact Us</a>
+      {% else %}
+        <button @click="showModal = true" class="w-full bg-ck-cyan text-black px-4 py-2 rounded font-bold hover:bg-white transition text-sm">Upgrade</button>
+      {% endif %}
+    </div>
+  {% endfor %}
+
+  <!-- Upgrade modal -->
+  <div x-show="showModal" x-cloak
+       class="fixed inset-0 z-50 flex items-center justify-center"
+       @keydown.escape.window="showModal = false">
+    <div class="absolute inset-0 bg-black/70" @click="showModal = false"></div>
+    <div class="relative bg-ck-surface border border-ck-border rounded-lg p-8 max-w-md w-full mx-4">
+      <h3 class="font-mono font-bold text-lg mb-3">Stripe billing coming soon</h3>
+      <p class="text-ck-muted text-sm mb-6">We're finalizing our billing integration. Email us to get early access to paid plans.</p>
+      <div class="flex items-center gap-3">
+        <a href="mailto:hello@vaultit.ai"
+           class="bg-ck-cyan text-black px-4 py-2 rounded font-bold hover:bg-white transition text-sm">
+          Email hello@vaultit.ai
+        </a>
+        <button @click="showModal = false"
+                class="border border-ck-border px-4 py-2 rounded text-sm hover:border-ck-cyan transition">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>[x-cloak] { display: none !important; }</style>
+{% endblock %}

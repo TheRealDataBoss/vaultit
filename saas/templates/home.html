@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block title %}vaultit — Zero model drift between AI agents{% endblock %}
+{% block content %}
+
+<!-- Hero -->
+<div class="text-center py-20">
+  <h1 class="font-mono text-5xl font-bold text-ck-cyan mb-4">vaultit</h1>
+  <p class="text-xl text-ck-muted mb-8 max-w-2xl mx-auto">Zero model drift between AI agents. Capture context from one agent, bootstrap the next — every handoff is versioned, searchable, and portable.</p>
+  <div class="flex items-center justify-center gap-4">
+    <a href="/accounts/login/"
+       class="bg-ck-cyan text-black px-6 py-3 rounded-lg font-bold hover:bg-white transition">
+      Get Started Free
+    </a>
+    <a href="https://github.com/TheRealDataBoss/vaultit"
+       target="_blank"
+       class="border border-ck-border px-6 py-3 rounded-lg font-bold hover:border-ck-cyan transition">
+      View on GitHub
+    </a>
+  </div>
+</div>
+
+<!-- How it works -->
+<div class="py-16 border-t border-ck-border">
+  <h2 class="font-mono text-2xl font-bold text-center mb-12">How it works</h2>
+  <div class="grid grid-cols-3 gap-8 max-w-4xl mx-auto">
+    <div class="text-center">
+      <div class="text-4xl font-bold text-ck-cyan mb-3">1</div>
+      <h3 class="font-mono font-bold mb-2">Install</h3>
+      <code class="text-sm text-ck-muted bg-ck-surface border border-ck-border rounded px-3 py-1 inline-block">pip install vaultit</code>
+    </div>
+    <div class="text-center">
+      <div class="text-4xl font-bold text-ck-cyan mb-3">2</div>
+      <h3 class="font-mono font-bold mb-2">Sync</h3>
+      <code class="text-sm text-ck-muted bg-ck-surface border border-ck-border rounded px-3 py-1 inline-block">vaultit sync --agent claude</code>
+    </div>
+    <div class="text-center">
+      <div class="text-4xl font-bold text-ck-cyan mb-3">3</div>
+      <h3 class="font-mono font-bold mb-2">Bootstrap</h3>
+      <code class="text-sm text-ck-muted bg-ck-surface border border-ck-border rounded px-3 py-1 inline-block">vaultit bootstrap</code>
+    </div>
+  </div>
+</div>
+
+<!-- Features -->
+<div class="py-16 border-t border-ck-border">
+  <h2 class="font-mono text-2xl font-bold text-center mb-12">Built for every workflow</h2>
+  <div class="grid grid-cols-4 gap-4">
+    <div class="bg-ck-surface border border-ck-border rounded-lg p-6">
+      <div class="text-ck-cyan font-mono font-bold mb-2">$_</div>
+      <h3 class="font-mono font-bold mb-2">CLI Tool</h3>
+      <p class="text-sm text-ck-muted">Init, sync, bootstrap, diff, status — all from your terminal.</p>
+    </div>
+    <div class="bg-ck-surface border border-ck-border rounded-lg p-6">
+      <div class="text-ck-purple font-mono font-bold mb-2">py</div>
+      <h3 class="font-mono font-bold mb-2">Python SDK</h3>
+      <p class="text-sm text-ck-muted">Full library API. Import and use programmatically in any Python project.</p>
+    </div>
+    <div class="bg-ck-surface border border-ck-border rounded-lg p-6">
+      <div class="text-ck-green font-mono font-bold mb-2">{}</div>
+      <h3 class="font-mono font-bold mb-2">MCP Server</h3>
+      <p class="text-sm text-ck-muted">Native Claude Code integration via Model Context Protocol.</p>
+    </div>
+    <div class="bg-ck-surface border border-ck-border rounded-lg p-6">
+      <div class="text-ck-cyan font-mono font-bold mb-2">/api</div>
+      <h3 class="font-mono font-bold mb-2">REST API</h3>
+      <p class="text-sm text-ck-muted">Full CRUD API with API key auth. Works with any HTTP client or GPT action.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Pricing preview -->
+<div class="py-16 border-t border-ck-border">
+  <h2 class="font-mono text-2xl font-bold text-center mb-4">Pricing</h2>
+  <p class="text-center text-ck-muted mb-12">Start free. Scale when you're ready.</p>
+  <div class="grid grid-cols-4 gap-4 max-w-4xl mx-auto">
+    <div class="bg-ck-surface border border-ck-border rounded-lg p-6 text-center">
+      <h3 class="font-mono font-bold mb-1">Free</h3>
+      <div class="text-2xl font-bold text-ck-cyan mb-2">$0</div>
+      <p class="text-xs text-ck-muted">3 projects / 30 days history</p>
+    </div>
+    <div class="bg-ck-surface border border-ck-cyan rounded-lg p-6 text-center">
+      <h3 class="font-mono font-bold mb-1">Pro</h3>
+      <div class="text-2xl font-bold text-ck-cyan mb-2">$19<span class="text-sm text-ck-muted">/mo</span></div>
+      <p class="text-xs text-ck-muted">Unlimited projects / 1 year</p>
+    </div>
+    <div class="bg-ck-surface border border-ck-border rounded-lg p-6 text-center">
+      <h3 class="font-mono font-bold mb-1">Team</h3>
+      <div class="text-2xl font-bold text-ck-cyan mb-2">$49<span class="text-sm text-ck-muted">/mo</span></div>
+      <p class="text-xs text-ck-muted">10 seats / unlimited history</p>
+    </div>
+    <div class="bg-ck-surface border border-ck-border rounded-lg p-6 text-center">
+      <h3 class="font-mono font-bold mb-1">Enterprise</h3>
+      <div class="text-2xl font-bold text-ck-cyan mb-2">Custom</div>
+      <p class="text-xs text-ck-muted">SSO / SLA / dedicated support</p>
+    </div>
+  </div>
+  <div class="text-center mt-8">
+    <a href="/billing/plans/" class="text-ck-cyan hover:text-white transition text-sm">View full plan comparison &rarr;</a>
+  </div>
+</div>
+
+<!-- Footer links -->
+<div class="py-12 border-t border-ck-border text-center">
+  <div class="flex items-center justify-center gap-8 text-sm text-ck-muted">
+    <a href="https://pypi.org/project/vaultit/" target="_blank" class="hover:text-white transition">PyPI</a>
+    <a href="https://www.npmjs.com/package/vaultit" target="_blank" class="hover:text-white transition">npm</a>
+    <a href="https://github.com/TheRealDataBoss/vaultit" target="_blank" class="hover:text-white transition">GitHub</a>
+    <a href="https://therealdataboss.github.io/vaultit" target="_blank" class="hover:text-white transition">Docs</a>
+  </div>
+</div>
+
+{% endblock %}

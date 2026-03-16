@@ -1,0 +1,8 @@
+{
+  "project_id": "vaultit",
+  "name": "vaultit",
+  "created_at": "2026-03-10T18:01:51.425685Z",
+  "backend": "file",
+  "coordination": "sequential",
+  "schema_version": "1.0"
+}

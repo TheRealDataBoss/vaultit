@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>vaultit — Zero model drift between AI agents</title>
+  <meta name="description" content="Switch AI models mid-project. Your AI picks up exactly where you left off. Zero context loss. Available on PyPI and npm.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0a0a0a;
+      --cyan: #00d4ff;
+      --purple: #7b61ff;
+      --green: #6acc65;
+      --text: #e0e0e0;
+      --muted: #888;
+      --surface: #111;
+      --border: #222;
+      --mono: 'Space Mono', monospace;
+      --sans: 'Inter', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Grid overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,0.025) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    section, footer { position: relative; z-index: 1; }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 24px;
+    }
+
+    .badge {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      padding: 6px 20px;
+      border: 1px solid var(--cyan);
+      border-radius: 999px;
+      color: var(--cyan);
+      margin-bottom: 36px;
+      animation: pulse-border 2.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse-border {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(0,212,255,0.4); }
+      50% { box-shadow: 0 0 0 8px rgba(0,212,255,0); }
+    }
+
+    .hero h1 {
+      font-family: var(--mono);
+      font-weight: 700;
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      color: var(--cyan);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .tagline {
+      font-size: clamp(1rem, 1.8vw, 1.2rem);
+      color: var(--muted);
+      max-width: 640px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+
+    .install-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 20px;
+      font-family: var(--mono);
+      font-size: 1rem;
+      margin-bottom: 20px;
+    }
+
+    .install-block code { color: var(--green); }
+    .install-block .prompt { color: var(--muted); }
+
+    .copy-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 4px;
+      padding: 4px 10px;
+      cursor: pointer;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      transition: all 0.2s;
+    }
+    .copy-btn:hover { color: var(--cyan); border-color: var(--cyan); }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .btn-github {
+      display: inline-block;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-family: var(--mono);
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-github:hover { border-color: var(--cyan); color: var(--cyan); }
+
+    .meta-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .pill {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      padding: 4px 14px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--muted);
+    }
+
+    /* ─── SECTION COMMON ─── */
+    .section-heading {
+      font-family: var(--mono);
+      font-weight: 700;
+      font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+      text-align: center;
+      margin-bottom: 16px;
+      color: #fff;
+    }
+
+    .section-sub {
+      text-align: center;
+      color: var(--muted);
+      margin-bottom: 48px;
+      font-size: 0.95rem;
+    }
+
+    /* ─── HOW IT WORKS ─── */
+    .how-it-works { padding: 100px 24px; border-top: 1px solid var(--border); }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .step-card { text-align: center; }
+
+    .step-num {
+      font-family: var(--mono);
+      font-weight: 700;
+      font-size: 2.4rem;
+      color: var(--cyan);
+      margin-bottom: 12px;
+    }
+
+    .step-card h3 {
+      font-family: var(--mono);
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+
+    .step-card code {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--muted);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 14px;
+      display: inline-block;
+    }
+
+    /* ─── FEATURES ─── */
+    .features { padding: 100px 24px; border-top: 1px solid var(--border); }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 28px 22px;
+      transition: border-color 0.2s;
+    }
+    .feature-card:hover { border-color: var(--cyan); }
+
+    .feature-icon {
+      font-family: var(--mono);
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+    }
+    .feature-icon.cyan { color: var(--cyan); }
+    .feature-icon.purple { color: var(--purple); }
+    .feature-icon.green { color: var(--green); }
+
+    .feature-card h3 {
+      font-family: var(--mono);
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .feature-card p {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ─── PRICING ─── */
+    .pricing { padding: 100px 24px; border-top: 1px solid var(--border); }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .price-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 32px 20px;
+      text-align: center;
+      transition: border-color 0.2s;
+    }
+    .price-card:hover { border-color: var(--cyan); }
+    .price-card.featured { border-color: var(--cyan); }
+
+    .price-card h3 {
+      font-family: var(--mono);
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .price-amount {
+      font-family: var(--mono);
+      font-weight: 700;
+      font-size: 2rem;
+      color: var(--cyan);
+      margin-bottom: 8px;
+    }
+
+    .price-amount .period {
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: var(--muted);
+    }
+
+    .price-detail {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      padding: 60px 24px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .footer-brand {
+      font-family: var(--mono);
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--cyan);
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 28px;
+      justify-content: center;
+    }
+
+    .footer-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--cyan); }
+
+    .footer-copy {
+      margin-top: 24px;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      .steps-grid { grid-template-columns: 1fr; gap: 40px; }
+      .features-grid { grid-template-columns: 1fr 1fr; }
+      .pricing-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .install-block { flex-direction: column; gap: 10px; }
+      .hero-actions { flex-direction: column; }
+      .features-grid { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <span class="badge">v0.6.0 &mdash; now on PyPI &amp; npm</span>
+    <h1>vaultit</h1>
+    <p class="tagline">Zero model drift between AI agents. Capture context from one agent, bootstrap the next &mdash; every handoff is versioned, searchable, and portable.</p>
+
+    <div class="install-block">
+      <span><span class="prompt">$</span> <code>pip install vaultit</code></span>
+      <button class="copy-btn" onclick="navigator.clipboard.writeText('pip install vaultit').then(()=>{this.textContent='copied!';setTimeout(()=>this.textContent='copy',1500)})">copy</button>
+    </div>
+
+    <div class="hero-actions">
+      <a href="https://github.com/TheRealDataBoss/vaultit" target="_blank" rel="noopener" class="btn-github">View on GitHub</a>
+    </div>
+
+    <div class="meta-pills">
+      <span class="pill">Python 3.10+</span>
+      <span class="pill">Node 18+</span>
+      <span class="pill">MIT License</span>
+      <span class="pill">MCP Native</span>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-it-works">
+    <div class="container">
+      <h2 class="section-heading">How it works</h2>
+      <p class="section-sub">Three commands. Zero context loss.</p>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <h3>Install</h3>
+          <code>pip install vaultit</code>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <h3>Sync</h3>
+          <code>vaultit sync --agent claude</code>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <h3>Bootstrap</h3>
+          <code>vaultit bootstrap</code>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features">
+    <div class="container">
+      <h2 class="section-heading">Built for every workflow</h2>
+      <p class="section-sub">CLI, SDK, MCP, and REST &mdash; pick your interface.</p>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon cyan">$_</div>
+          <h3>CLI Tool</h3>
+          <p>Init, sync, bootstrap, diff, status &mdash; all from your terminal.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon purple">py</div>
+          <h3>Python SDK</h3>
+          <p>Full library API. Import and use programmatically in any Python project.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon green">{}</div>
+          <h3>MCP Server</h3>
+          <p>Native Claude Code integration via Model Context Protocol.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon cyan">/api</div>
+          <h3>REST API</h3>
+          <p>Full CRUD API with API key auth. Works with any HTTP client or GPT action.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing">
+    <div class="container">
+      <h2 class="section-heading">Pricing</h2>
+      <p class="section-sub">Start free. Scale when you're ready.</p>
+
+      <div class="pricing-grid">
+        <div class="price-card">
+          <h3>Free</h3>
+          <div class="price-amount">$0</div>
+          <p class="price-detail">3 projects / 30 days history</p>
+        </div>
+        <div class="price-card featured">
+          <h3>Pro</h3>
+          <div class="price-amount">$19<span class="period">/mo</span></div>
+          <p class="price-detail">Unlimited projects / 1 year</p>
+        </div>
+        <div class="price-card">
+          <h3>Team</h3>
+          <div class="price-amount">$49<span class="period">/mo</span></div>
+          <p class="price-detail">10 seats / unlimited history</p>
+        </div>
+        <div class="price-card">
+          <h3>Enterprise</h3>
+          <div class="price-amount">Custom</div>
+          <p class="price-detail">SSO / SLA / dedicated support</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-brand">vaultit</div>
+    <div class="footer-links">
+      <a href="https://pypi.org/project/vaultit/" target="_blank" rel="noopener">PyPI</a>
+      <a href="https://www.npmjs.com/package/vaultit" target="_blank" rel="noopener">npm</a>
+      <a href="https://github.com/TheRealDataBoss/vaultit" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://registry.modelcontextprotocol.io" target="_blank" rel="noopener">MCP Registry</a>
+    </div>
+    <p class="footer-copy">&copy; 2025 Originami. MIT License.</p>
+  </footer>
+
+</body>
+</html>

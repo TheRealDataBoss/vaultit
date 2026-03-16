@@ -1,0 +1,14 @@
+{
+  "schema_version": "vaultit-v1.0",
+  "project": "portfolio-django",
+  "project_type": "web_app",
+  "repo": "local only",
+  "local_path": "C:\\Users\\Steven\\Portfolio",
+  "branch": "main",
+  "state_machine_status": "IDLE",
+  "active_task_id": null,
+  "current_blocker": null,
+  "last_verified_state": "Daily restart and smoke test passing",
+  "gates": ["python manage.py check", "python manage.py test"],
+  "last_updated": "2026-03-09"
+}

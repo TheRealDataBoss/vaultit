@@ -1,0 +1,157 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "VaultIt STATE_VECTOR",
+  "description": "Formal schema for the VaultIt session continuity protocol. Every project tracked by vaultit-ai must produce a STATE_VECTOR.json that validates against this schema.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "project",
+    "project_type",
+    "local_path",
+    "state_machine_status",
+    "active_task_id",
+    "active_task_title",
+    "current_blocker",
+    "last_verified_state",
+    "gates",
+    "last_updated"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^vaultit-v\\d+\\.\\d+$",
+      "description": "Protocol version. Consumers must check this before parsing."
+    },
+    "project": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Project slug used as directory name in the bridge repo."
+    },
+    "project_type": {
+      "type": "string",
+      "enum": [
+        "web_app",
+        "ml_pipeline",
+        "research_notebook",
+        "data_pipeline",
+        "mobile_app",
+        "cli_tool",
+        "library",
+        "course_module",
+        "other"
+      ],
+      "description": "Categorical project type. Drives defaults in tooling and bootstrap behavior."
+    },
+    "local_path": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Absolute path to the project root on the operator's machine."
+    },
+    "state_machine_status": {
+      "type": "string",
+      "enum": [
+        "IDLE",
+        "PROPOSED",
+        "EXECUTING",
+        "AWAITING_REVIEW",
+        "REVIEWED",
+        "AWAITING_MANUAL_VALIDATION",
+        "VALIDATED",
+        "AWAITING_SEAL",
+        "SEALED",
+        "VERIFIED",
+        "PROTOCOL_BREACH"
+      ],
+      "description": "Current state in the task lifecycle state machine."
+    },
+    "active_task_id": {
+      "type": ["string", "null"],
+      "description": "Identifier for the currently active task (e.g. TASK-0029). Null when IDLE."
+    },
+    "active_task_title": {
+      "type": ["string", "null"],
+      "description": "Human-readable title of the active task. Null when IDLE."
+    },
+    "current_blocker": {
+      "type": ["string", "null"],
+      "description": "Description of what is blocking progress. Null when unblocked."
+    },
+    "last_verified_state": {
+      "type": "string",
+      "description": "Human-readable description of the last known-good state that passed all gates."
+    },
+    "gates": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "description": "Shell commands that must all exit 0 before any state transition is legal."
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO 8601 date (YYYY-MM-DD) of the last STATE_VECTOR update."
+    },
+    "repo": {
+      "type": "string",
+      "description": "GitHub repository URL, or 'local only' if not pushed."
+    },
+    "branch": {
+      "type": ["string", "null"],
+      "description": "Active git branch. Null if not using git."
+    },
+    "repo_head_sha": {
+      "type": ["string", "null"],
+      "description": "Short SHA of the latest commit on the active branch."
+    },
+    "effective_verified_sha": {
+      "type": ["string", "null"],
+      "description": "Short SHA of the commit that last passed all gates."
+    },
+    "environment": {
+      "type": "object",
+      "properties": {
+        "language": {
+          "type": "string",
+          "description": "Primary language (e.g. python, node, rust)."
+        },
+        "version": {
+          "type": "string",
+          "description": "Language version (e.g. 3.13, 20.x)."
+        },
+        "package_manager": {
+          "type": "string",
+          "description": "Package manager in use (e.g. pip, npm, pnpm, cargo)."
+        },
+        "venv_path": {
+          "type": ["string", "null"],
+          "description": "Path to virtual environment, if applicable."
+        }
+      },
+      "additionalProperties": false,
+      "description": "Runtime environment details."
+    },
+    "team": {
+      "type": "object",
+      "properties": {
+        "executor": {
+          "type": "string",
+          "description": "Who (or what AI) is executing the current task."
+        },
+        "auditor": {
+          "type": ["string", "null"],
+          "description": "Who reviews completed work."
+        },
+        "operator": {
+          "type": "string",
+          "description": "The human operator who owns this project."
+        }
+      },
+      "additionalProperties": false,
+      "description": "Team roles for the current task lifecycle."
+    }
+  },
+  "additionalProperties": false
+}

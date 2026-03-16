@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}vaultit{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+  <script src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['Space Mono', 'monospace'],
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            ck: {
+              bg: '#0a0a0f',
+              surface: '#12121a',
+              border: '#1e1e2e',
+              cyan: '#00e5ff',
+              purple: '#a855f7',
+              green: '#6acc65',
+              text: '#e2e8f0',
+              muted: '#94a3b8',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #0a0a0f; }
+    ::selection { background: #00e5ff33; }
+  </style>
+</head>
+<body class="bg-ck-bg text-ck-text font-sans min-h-screen">
+  <nav class="border-b border-ck-border px-6 py-4 flex items-center justify-between">
+    <a href="/" class="font-mono font-bold text-xl text-ck-cyan hover:text-white transition">vaultit</a>
+    <div class="flex items-center gap-6 text-sm">
+      {% if user.is_authenticated %}
+        <a href="/dashboard/" class="hover:text-white transition {% if request.path == '/dashboard/' %}text-ck-cyan border-b border-ck-cyan{% else %}text-ck-muted{% endif %}">Dashboard</a>
+        <a href="/settings/" class="hover:text-white transition {% if request.path == '/settings/' %}text-ck-cyan border-b border-ck-cyan{% else %}text-ck-muted{% endif %}">Settings</a>
+        <a href="/billing/plans/" class="hover:text-white transition {% if request.path == '/billing/plans/' %}text-ck-cyan border-b border-ck-cyan{% else %}text-ck-muted{% endif %}">Plans</a>
+        <a href="/accounts/logout/" class="text-ck-muted hover:text-red-400 transition">Logout</a>
+      {% else %}
+        <a href="/accounts/login/" class="bg-ck-cyan text-black px-4 py-2 rounded font-bold hover:bg-white transition">Login with GitHub</a>
+      {% endif %}
+    </div>
+  </nav>
+  <main class="max-w-6xl mx-auto px-6 py-8">
+    {% if messages %}
+      {% for message in messages %}
+        <div class="mb-4 p-3 rounded border border-ck-border bg-ck-surface text-sm">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="border-t border-ck-border px-6 py-4 text-center text-xs text-ck-muted">
+    vaultit v{{ app_version|default:"0.7.0" }} &mdash; zero model drift between AI agents
+  </footer>
+</body>
+</html>

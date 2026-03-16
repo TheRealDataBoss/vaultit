@@ -1,0 +1,56 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+# mcp-name: io.github.TheRealDataBoss/vaultit
+name = "vaultit"
+version = "0.6.0"
+description = "Zero model drift between AI agents. Universal session continuity CLI and Python library for Claude, GPT, Gemini, and any LLM."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    { name = "TheRealDataBoss" },
+]
+keywords = [
+    "ai",
+    "claude",
+    "chatgpt",
+    "context",
+    "continuity",
+    "developer-tools",
+    "cli",
+]
+classifiers = [
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Topic :: Utilities",
+    "Topic :: Software Development :: Version Control",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+dependencies = [
+    "pydantic>=2.0",
+    "typer>=0.12",
+    "rich>=13.0",
+]
+
+[project.optional-dependencies]
+server = ["fastapi>=0.100.0", "uvicorn>=0.20.0", "httpx>=0.24.0"]
+mcp = ["fastmcp>=0.1.0"]
+postgres = ["psycopg2-binary>=2.9"]
+all = ["fastapi>=0.100.0", "uvicorn>=0.20.0", "httpx>=0.24.0", "fastmcp>=0.1.0", "psycopg2-binary>=2.9"]
+dev = ["pytest>=8.0", "pytest-cov>=5.0"]
+
+[project.scripts]
+vaultit = "vaultit.cli:app"
+
+[project.urls]
+Homepage = "https://github.com/TheRealDataBoss/vaultit"
+Repository = "https://github.com/TheRealDataBoss/vaultit"
+Issues = "https://github.com/TheRealDataBoss/vaultit/issues"

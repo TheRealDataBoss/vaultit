@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Settings - vaultit{% endblock %}
+{% block content %}
+<h1 class="font-mono text-3xl font-bold mb-8">Settings</h1>
+
+<div class="grid grid-cols-2 gap-6">
+  <div class="bg-ck-surface border border-ck-border rounded-lg p-6">
+    <h2 class="font-mono font-semibold text-lg mb-4">Profile</h2>
+    <div class="space-y-3 text-sm">
+      <div><span class="text-ck-muted">Email:</span> {{ user.email }}</div>
+      <div><span class="text-ck-muted">GitHub:</span> {{ profile.github_username|default:"not linked" }}</div>
+      <div><span class="text-ck-muted">Organization:</span> {{ profile.org.name|default:"none" }}</div>
+      <div><span class="text-ck-muted">Plan:</span> {{ profile.org.plan|default:"free"|upper }}</div>
+    </div>
+  </div>
+
+  <div class="bg-ck-surface border border-ck-border rounded-lg p-6">
+    <h2 class="font-mono font-semibold text-lg mb-4">API Key</h2>
+    {% if new_key %}
+      <div class="bg-ck-bg border border-ck-cyan rounded p-4 mb-4">
+        <div class="text-xs text-ck-cyan mb-2 uppercase tracking-wider">New API Key (save now)</div>
+        <code class="text-ck-cyan font-bold break-all">{{ new_key }}</code>
+      </div>
+      <p class="text-xs text-red-400">This key will not be shown again.</p>
+    {% endif %}
+    <div class="text-sm text-ck-muted mb-4">
+      {% if profile.api_key_hash %}
+        API key is set.
+      {% else %}
+        No API key configured.
+      {% endif %}
+    </div>
+    <form method="post">
+      {% csrf_token %}
+      <button name="generate_key" type="submit"
+              class="bg-ck-cyan text-black px-4 py-2 rounded font-bold hover:bg-white transition text-sm">
+        {% if profile.api_key_hash %}Regenerate Key{% else %}Generate Key{% endif %}
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}

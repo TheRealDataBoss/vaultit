@@ -1,0 +1,17 @@
+{
+  "schema_version": "vaultit-v1.0",
+  "project": "3dpie",
+  "project_type": "web_app",
+  "repo": "https://github.com/TheRealDataBoss/3dpie",
+  "local_path": "C:\\Users\\Steven\\Chart generator\\repo\\git",
+  "branch": "fix/controls-bloom-recovery",
+  "repo_head_sha": "a11055c",
+  "effective_verified_sha": "4fc0b6c",
+  "state_machine_status": "EXECUTING",
+  "active_task_id": "TASK-0029",
+  "active_task_title": "Drag/merge leaf identity inconsistent after Reset/hard refresh",
+  "current_blocker": "Playwright 244/244 pass but Steven manual QA fails. Root cause: headless vs real browser divergence in DomDragController pointer capture.",
+  "last_verified_state": "feat(hierarchy): production-ready deep nesting with guard UX and tooltips",
+  "gates": ["npx vitest run", "npx playwright test", "npm run build:check", "git status"],
+  "last_updated": "2026-03-09"
+}

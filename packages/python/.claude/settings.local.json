@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell -Command \"Remove-Item -Recurse -Force dist -ErrorAction SilentlyContinue; Write-Output 'dist cleaned'\")",
+      "Bash(python -m build)",
+      "Bash(powershell -Command \"python -m twine upload dist/* --username __token__ --password $env:TWINE_PASSWORD\")",
+      "Bash(powershell -Command \"python -m twine upload dist/* --username __token__ --password $env:TWINE_PASSWORD --verbose 2>&1\")"
+    ]
+  }
+}

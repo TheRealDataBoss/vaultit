@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Logout - vaultit{% endblock %}
+{% block content %}
+<div class="max-w-md mx-auto mt-20">
+  <div class="bg-ck-surface border border-ck-border rounded-lg p-8 text-center">
+    <h1 class="font-mono text-2xl font-bold mb-4">Sign Out</h1>
+    <p class="text-ck-muted mb-6">Are you sure you want to sign out?</p>
+    <form method="post" action="{% url 'account_logout' %}">
+      {% csrf_token %}
+      <button type="submit"
+              class="bg-red-500 text-white px-6 py-2 rounded font-bold hover:bg-red-400 transition text-sm">
+        Sign Out
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}

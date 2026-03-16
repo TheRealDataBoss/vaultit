@@ -1,0 +1,14 @@
+{
+  "schema_version": "vaultit-v1.0",
+  "project": "mit-modules",
+  "project_type": "research_notebook",
+  "repo": "local only",
+  "local_path": "C:\\Users\\Steven\\Pedipro\\pipeline",
+  "branch": null,
+  "state_machine_status": "IDLE",
+  "active_task_id": null,
+  "current_blocker": null,
+  "last_verified_state": "Module 6 Recommender Systems complete. Module 7 Stock and Network Portfolio Optimization in progress.",
+  "gates": ["notebook runs clean top to bottom", "all cells execute without error"],
+  "last_updated": "2026-03-09"
+}

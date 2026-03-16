@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}Session {{ session.session_id|truncatechars:12 }} - vaultit{% endblock %}
+{% block content %}
+<div class="mb-6 flex items-center gap-2 text-sm text-ck-muted">
+  <a href="{% url 'dashboard:dashboard' %}" class="hover:text-white">&larr; Dashboard</a>
+  <span>/</span>
+  <a href="{% url 'dashboard:project-detail' project.project_id %}" class="hover:text-white">{{ project.name }}</a>
+</div>
+
+<div class="mb-8">
+  <h1 class="font-mono text-2xl font-bold mb-2">Session {{ session.session_id|truncatechars:16 }}</h1>
+  <p class="text-ck-muted">
+    Agent: {{ session.agent }} &middot;
+    Created: {{ session.created_at|date:"M d, Y H:i" }} &middot;
+    {% if session.closed_at %}
+      <span class="text-red-400">Closed {{ session.closed_at|date:"M d, Y H:i" }}</span>
+    {% else %}
+      <span class="text-ck-green">Open</span>
+    {% endif %}
+  </p>
+</div>
+
+<div class="bg-ck-surface border border-ck-border rounded-lg">
+  <div class="px-6 py-4 border-b border-ck-border">
+    <h2 class="font-mono font-semibold">Handoff Timeline ({{ handoffs|length }})</h2>
+  </div>
+  {% for handoff in handoffs %}
+    <div class="px-6 py-4 border-b border-ck-border last:border-b-0">
+      <div class="flex items-center justify-between mb-3">
+        <span class="text-ck-cyan font-bold text-lg">v{{ handoff.version }}</span>
+        <span class="text-xs text-ck-muted">{{ handoff.created_at|date:"M d, Y H:i:s" }}</span>
+      </div>
+
+      {% if handoff.tasks %}
+        <div class="mb-3">
+          <div class="text-xs text-ck-muted mb-1 uppercase tracking-wider">Tasks</div>
+          {% for task in handoff.tasks %}
+            <div class="flex items-center gap-2 text-sm py-1">
+              {% if task.status == "done" %}
+                <span class="text-ck-green">[done]</span>
+              {% elif task.status == "in_progress" %}
+                <span class="text-ck-cyan">[in_progress]</span>
+              {% elif task.status == "blocked" %}
+                <span class="text-red-400">[blocked]</span>
+              {% else %}
+                <span class="text-ck-muted">[pending]</span>
+              {% endif %}
+              <span>{{ task.id }}: {{ task.title }}</span>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% if handoff.decisions %}
+        <div class="mb-3">
+          <div class="text-xs text-ck-muted mb-1 uppercase tracking-wider">Decisions</div>
+          {% for dec in handoff.decisions %}
+            <div class="text-sm py-1">{{ dec.id }}: {{ dec.summary }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% if handoff.next_steps %}
+        <div class="mb-3">
+          <div class="text-xs text-ck-muted mb-1 uppercase tracking-wider">Next Steps</div>
+          {% for step in handoff.next_steps %}
+            <div class="text-sm py-1">- {{ step }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% if handoff.raw_notes %}
+        <div class="text-sm text-ck-muted mt-2 italic">{{ handoff.raw_notes }}</div>
+      {% endif %}
+    </div>
+  {% empty %}
+    <div class="px-6 py-8 text-center text-ck-muted">No handoffs in this session.</div>
+  {% endfor %}
+</div>
+{% endblock %}

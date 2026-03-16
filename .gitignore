@@ -1,0 +1,22 @@
+
+packages/npm/node_modules/
+packages/npm/package-lock.json
+
+# Secrets
+**/.mcpregistry_github_token
+**/.mcpregistry_registry_token
+
+# vaultit local state
+**/.vaultit/
+
+# Django
+**/.env
+**/db.sqlite3
+**/staticfiles/
+
+# Python
+**/__pycache__/
+**/*.pyc
+**/dist/
+**/build/
+**/*.egg-info/

@@ -1,0 +1,52 @@
+{
+  "schema_version": "vaultit-v1.0",
+  "project": "my-project",
+  "project_type": "web_app",
+  "local_path": "/home/user/projects/my-project",
+  "state_machine_status": "IDLE",
+  "active_task_id": null,
+  "active_task_title": null,
+  "current_blocker": null,
+  "last_verified_state": "Initial project setup — all gates green",
+  "gates": [
+    "npm test",
+    "npm run build",
+    "git status"
+  ],
+  "last_updated": "2026-03-09",
+  "repo": "https://github.com/yourname/my-project",
+  "branch": "main",
+  "repo_head_sha": null,
+  "effective_verified_sha": null,
+  "environment": {
+    "language": "node",
+    "version": "20.x",
+    "package_manager": "npm",
+    "venv_path": null
+  },
+  "team": {
+    "executor": "Claude",
+    "auditor": null,
+    "operator": "Your Name"
+  },
+
+  "_comments": {
+    "schema_version": "Protocol version. Must match pattern vaultit-v<major>.<minor>. Consumers check this before parsing.",
+    "project": "URL-safe slug. Used as directory name in the bridge repo (e.g. projects/my-project/).",
+    "project_type": "One of: web_app, ml_pipeline, research_notebook, data_pipeline, mobile_app, cli_tool, library, course_module, other.",
+    "local_path": "Absolute path on the operator's machine. AI uses this for cd commands.",
+    "state_machine_status": "Current lifecycle state. IDLE = no active work. EXECUTING = task in progress. PROTOCOL_BREACH = illegal transition detected.",
+    "active_task_id": "Unique task identifier (e.g. TASK-0001). Null when IDLE.",
+    "active_task_title": "Human-readable task title. Null when IDLE.",
+    "current_blocker": "What is preventing progress. Null if unblocked. Be specific — this is the first thing the next session reads.",
+    "last_verified_state": "Plain-English description of the last state where ALL gates passed. This is the rollback target.",
+    "gates": "Array of shell commands. Every command must exit 0 before any state transition. Order matters — run sequentially.",
+    "last_updated": "ISO 8601 date. Updated every time this file changes.",
+    "repo": "GitHub URL or 'local only'. Used by sync tooling to locate the source repo.",
+    "branch": "Active git branch. Null if not using git or branch is unknown.",
+    "repo_head_sha": "Short SHA of the latest commit. Used to detect drift between sessions.",
+    "effective_verified_sha": "Short SHA of the last commit that passed all gates. May differ from repo_head_sha if recent commits haven't been validated.",
+    "environment": "Runtime details. Helps AI set up the correct environment without guessing.",
+    "team": "Who is doing what. executor = AI or human running the task. auditor = reviewer. operator = project owner."
+  }
+}

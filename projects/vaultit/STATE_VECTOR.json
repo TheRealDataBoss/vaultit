@@ -1,0 +1,44 @@
+{
+  "project": "vaultit",
+  "version": "0.7.0-saas",
+  "status": "ACTIVE",
+  "phase": "Phase 5 complete -- Phase 6 ready (deploy + domain)",
+  "last_published": "2026-03-10",
+  "next_task": "TASK-0020",
+  "packages": {
+    "pypi": "0.6.0",
+    "npm": "0.2.1"
+  },
+  "urls": {
+    "pypi": "https://pypi.org/project/vaultit/0.6.0/",
+    "mcp_registry": "https://registry.modelcontextprotocol.io",
+    "npm": "https://www.npmjs.com/package/vaultit",
+    "github": "https://github.com/TheRealDataBoss/vaultit",
+    "landing_page": "https://therealdataboss.github.io/vaultit"
+  },
+  "tasks": {
+    "TASK-0007": {"status": "DONE", "desc": "Bump npm to v0.2.1 + update README"},
+    "TASK-0008": {"status": "DONE", "desc": "Fix pyproject.toml trove classifiers"},
+    "TASK-0009": {"status": "PENDING", "desc": "Register vaultit.ai domain"},
+    "TASK-0010": {"status": "DONE", "desc": "Smoke test all 5 CLI commands", "notes": "5/5 PASS after v0.2.3 fixes"},
+    "TASK-0010a": {"status": "DONE", "desc": "Add doctor command to Python CLI"},
+    "TASK-0010b": {"status": "DONE", "desc": "Fix Unicode arrow crash on Windows cp1252"},
+    "TASK-0011": {"status": "DONE", "desc": "Expose Python library API"},
+    "TASK-0012": {"status": "DONE", "desc": "Build MCP server"},
+    "TASK-0013": {"status": "DONE", "desc": "Build REST API (FastAPI)"},
+    "TASK-0014": {"status": "DONE", "desc": "Write OpenAPI spec for GPT action"},
+    "TASK-0015": {"status": "DONE", "desc": "Submit to MCP registry", "notes": "Published io.github.TheRealDataBoss/vaultit v0.2.7 to registry.modelcontextprotocol.io (PyPI package only, npm pending mcpName publish)"},
+    "TASK-0016": {"status": "DONE", "desc": "Build vaultit.ai landing page", "notes": "GitHub Pages at therealdataboss.github.io/vaultit"},
+    "TASK-0017": {"status": "DONE", "desc": "Phase 3: SDK depth + REST API rewrite + MCP rewrite + CLI subcommands + tests", "notes": "173 tests passing"},
+    "TASK-0018": {"status": "DONE", "desc": "Phase 4: PostgresBackend, API key auth, audit log", "notes": "201 passed, 20 skipped (postgres). PostgresBackend with connection pooling, APIKeyManager, AuthMiddleware, 3 auth endpoints, audit logging. Published to PyPI 0.6.0"},
+    "TASK-0019": {"status": "DONE", "desc": "Phase 5: Django SaaS app, DRF API, HTMX dashboard, GitHub OAuth, Stripe billing", "notes": "50 files, 74 tests passing. Django 5 + DRF + allauth + Stripe. 5 apps (accounts, api, billing, dashboard, projects). 17 API endpoints, dark theme HTMX dashboard, API key auth."}
+  },
+  "decisions": {
+    "name": "vaultit",
+    "domain": "vaultit.ai",
+    "cli_command": "vaultit",
+    "distribution": ["pypi", "npm"],
+    "next_forms": ["python-library", "mcp-server", "rest-api", "gpt-action"],
+    "auth_model": "API key with SHA-256 hash, scope-based (read/write/admin)"
+  }
+}

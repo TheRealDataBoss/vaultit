@@ -1,0 +1,40 @@
+/* vaultit SaaS — custom styles */
+
+:root {
+    --ck-bg: #0a0a0f;
+    --ck-surface: #12121a;
+    --ck-border: #1e1e2e;
+    --ck-cyan: #00e5ff;
+    --ck-purple: #a855f7;
+    --ck-green: #6acc65;
+    --ck-muted: #6b7280;
+}
+
+body {
+    font-family: "Space Mono", monospace;
+    background-color: var(--ck-bg);
+    color: #e5e7eb;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Syne", sans-serif;
+}
+
+/* Stat cards */
+.stat-card {
+    background: var(--ck-surface);
+    border: 1px solid var(--ck-border);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+}
+
+.stat-card .stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--ck-cyan);
+}
+
+/* Table rows */
+.ck-table-row:hover {
+    background-color: rgba(30, 30, 46, 0.5);
+}
